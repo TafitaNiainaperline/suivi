@@ -3,22 +3,37 @@
 }
 
 .expense-list h2 {
-  margin-bottom: 20px;
-  font-size: 20px;
+  margin-bottom: 24px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.expense-list h2::before {
+  content: '';
+  width: 4px;
+  height: 28px;
+  background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+  border-radius: 2px;
 }
 
 .cards-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .loading,
 .empty-state {
   background: var(--bg-white);
-  padding: 40px;
+  padding: 56px 32px;
   border-radius: 12px;
   text-align: center;
   color: var(--text-gray);
   border: 2px dashed var(--border-color);
+  font-size: 15px;
+  font-weight: 500;
 }
