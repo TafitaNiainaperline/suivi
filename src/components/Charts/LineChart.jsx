@@ -60,7 +60,7 @@ export default function LineChart() {
       {
         label: 'Dépenses quotidiennes (€)',
         data,
-        borderColor: var(--primary-color),
+        borderColor: '#3b82f6',
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
         tension: 0.4,
         fill: true,
