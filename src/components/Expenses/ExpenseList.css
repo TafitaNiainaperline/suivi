@@ -1,0 +1,24 @@
+.expense-list {
+  flex: 1;
+}
+
+.expense-list h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loading,
+.empty-state {
+  background: var(--bg-white);
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  color: var(--text-gray);
+  border: 2px dashed var(--border-color);
+}
