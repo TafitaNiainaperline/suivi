@@ -35,38 +35,72 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-container">
-        <h1>Inscription</h1>
-        <form onSubmit={handleSubmit} className="auth-form">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Confirmer mot de passe"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          {error && <div className="error">{error}</div>}
-          <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? 'Inscription...' : 'S\'inscrire'}
-          </button>
-        </form>
-        <p>
-          Déjà inscrit ? <Link to="/login">Se connecter</Link>
-        </p>
+      <div className="auth-wrapper">
+        <div className="auth-image">
+          <div className="image-placeholder">
+            <div className="image-gradient"></div>
+            <div className="image-content">
+              <h2>Commencez maintenant</h2>
+              <p>Créez votre compte et gérez vos dépenses</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="auth-form-section">
+          <div className="auth-form-container">
+            <h1>Inscription</h1>
+            <p className="auth-subtitle">Créez votre compte pour commencer</p>
+
+            <form onSubmit={handleSubmit} className="auth-form">
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  placeholder="votre@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Mot de passe</label>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Confirmer mot de passe</label>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              {error && <div className="error">{error}</div>}
+
+              <button type="submit" disabled={loading} className="btn-primary">
+                {loading ? 'Inscription...' : 'S\'inscrire'}
+              </button>
+            </form>
+
+            <div className="auth-divider">
+              <span>OU</span>
+            </div>
+
+            <p className="auth-signup">
+              Déjà inscrit ? <Link to="/login">Se connecter</Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   )
