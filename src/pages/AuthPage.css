@@ -40,6 +40,10 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  background-image: url('/images/depenses.png');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
 }
 
 .image-content {
