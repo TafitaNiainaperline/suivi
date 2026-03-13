@@ -28,31 +28,62 @@ export default function LoginPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-container">
-        <h1>Connexion</h1>
-        <form onSubmit={handleSubmit} className="auth-form">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {error && <div className="error">{error}</div>}
-          <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? 'Connexion...' : 'Se connecter'}
-          </button>
-        </form>
-        <p>
-          Pas de compte ? <Link to="/register">S'inscrire</Link>
-        </p>
+      <div className="auth-wrapper">
+        <div className="auth-image">
+          <div className="image-placeholder">
+            <div className="image-gradient"></div>
+            <div className="image-content">
+              <h2>Gérez vos dépenses</h2>
+              <p>Suivez et catégorisez vos dépenses facilement</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="auth-form-section">
+          <div className="auth-form-container">
+            <h1>Connexion</h1>
+            <p className="auth-subtitle">Bienvenue ! Connectez-vous à votre compte</p>
+
+            <form onSubmit={handleSubmit} className="auth-form">
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  placeholder="votre@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Mot de passe</label>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <a href="#" className="forgot-password">Mot de passe oublié ?</a>
+              </div>
+
+              {error && <div className="error">{error}</div>}
+
+              <button type="submit" disabled={loading} className="btn-primary">
+                {loading ? 'Connexion...' : 'Se connecter'}
+              </button>
+            </form>
+
+            <div className="auth-divider">
+              <span>OU</span>
+            </div>
+
+            <p className="auth-signup">
+              Pas de compte ? <Link to="/register">S'inscrire</Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   )
