@@ -1,14 +1,12 @@
 import { useAuth } from '../hooks/useAuth'
 import { useExpenses } from '../hooks/useExpenses'
 import { useEffect } from 'react'
-import ExpenseForm from '../components/Expenses/ExpenseForm'
-import ExpenseList from '../components/Expenses/ExpenseList'
 import PieChart from '../components/Charts/PieChart'
 import BarChart from '../components/Charts/BarChart'
 import LineChart from '../components/Charts/LineChart'
 import './HomePage.css'
 
-export default function HomePage() {
+export default function ReportsPage() {
   const { user, logout } = useAuth()
   const { loadExpenses } = useExpenses()
 
@@ -34,7 +32,7 @@ export default function HomePage() {
         </div>
 
         <nav className="nav-menu">
-          <a href="/" className="nav-item active">
+          <a href="/" className="nav-item">
             <img src="/images/dashboard-svgrepo-com.svg" alt="Dashboard" className="nav-icon-img" />
             <span>Dashboard</span>
           </a>
@@ -46,7 +44,7 @@ export default function HomePage() {
             <img src="/images/category-svgrepo-com.svg" alt="Catégories" className="nav-icon-img" />
             <span>Catégories</span>
           </a>
-          <a href="/reports" className="nav-item">
+          <a href="/reports" className="nav-item active">
             <img src="/images/budget-svgrepo-com.svg" alt="Rapports" className="nav-icon-img" />
             <span>Rapports</span>
           </a>
@@ -66,12 +64,8 @@ export default function HomePage() {
       <div className="page-wrapper">
         <div className="main-wrapper">
           <div className="content-header">
-            <h2>Bonjour {user?.email?.split('@')[0]}</h2>
-            <p>Voici votre résumé des dépenses</p>
-          </div>
-
-          <div className="form-section">
-            <ExpenseForm />
+            <h2>Rapports</h2>
+            <p>Analysez vos dépenses avec des graphiques</p>
           </div>
 
           <section className="charts-section">
@@ -82,10 +76,6 @@ export default function HomePage() {
             <div className="chart-full">
               <LineChart />
             </div>
-          </section>
-
-          <section className="list-section">
-            <ExpenseList />
           </section>
         </div>
       </div>

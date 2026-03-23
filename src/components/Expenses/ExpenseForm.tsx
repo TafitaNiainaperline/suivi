@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, FormEvent } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { useExpenses } from '../../hooks/useExpenses'
 import { EXPENSE_CATEGORIES } from '../../utils/constants'
@@ -14,7 +14,7 @@ export default function ExpenseForm() {
   const { user } = useAuth()
   const { addExpense } = useExpenses()
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
 
@@ -26,7 +26,7 @@ export default function ExpenseForm() {
     setLoading(true)
 
     try {
-      await addExpense(user.uid, {
+      await addExpense(user!.uid, {
         amount: parseFloat(amount),
         description,
         category,
@@ -36,7 +36,7 @@ export default function ExpenseForm() {
       setDescription('')
       setCategory('food')
       setDate(new Date().toISOString().split('T')[0])
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message)
     } finally {
       setLoading(false)

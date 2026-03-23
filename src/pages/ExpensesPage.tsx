@@ -3,12 +3,9 @@ import { useExpenses } from '../hooks/useExpenses'
 import { useEffect } from 'react'
 import ExpenseForm from '../components/Expenses/ExpenseForm'
 import ExpenseList from '../components/Expenses/ExpenseList'
-import PieChart from '../components/Charts/PieChart'
-import BarChart from '../components/Charts/BarChart'
-import LineChart from '../components/Charts/LineChart'
 import './HomePage.css'
 
-export default function HomePage() {
+export default function ExpensesPage() {
   const { user, logout } = useAuth()
   const { loadExpenses } = useExpenses()
 
@@ -34,11 +31,11 @@ export default function HomePage() {
         </div>
 
         <nav className="nav-menu">
-          <a href="/" className="nav-item active">
+          <a href="/" className="nav-item">
             <img src="/images/dashboard-svgrepo-com.svg" alt="Dashboard" className="nav-icon-img" />
             <span>Dashboard</span>
           </a>
-          <a href="/expenses" className="nav-item">
+          <a href="/expenses" className="nav-item active">
             <img src="/images/budget-svgrepo-com.svg" alt="Dépenses" className="nav-icon-img" />
             <span>Dépenses</span>
           </a>
@@ -66,23 +63,13 @@ export default function HomePage() {
       <div className="page-wrapper">
         <div className="main-wrapper">
           <div className="content-header">
-            <h2>Bonjour {user?.email?.split('@')[0]}</h2>
-            <p>Voici votre résumé des dépenses</p>
+            <h2>Mes Dépenses</h2>
+            <p>Gestion complète de vos dépenses</p>
           </div>
 
           <div className="form-section">
             <ExpenseForm />
           </div>
-
-          <section className="charts-section">
-            <div className="charts-grid">
-              <PieChart />
-              <BarChart />
-            </div>
-            <div className="chart-full">
-              <LineChart />
-            </div>
-          </section>
 
           <section className="list-section">
             <ExpenseList />

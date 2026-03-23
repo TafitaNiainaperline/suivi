@@ -41,6 +41,8 @@ export default function LoginPage() {
 
         <div className="auth-form-section">
           <div className="auth-form-container">
+            <h2>Gérez vos dépenses</h2>
+            <p>Suivez et catégorisez vos dépenses facilement</p>
             <h1>Connexion</h1>
             <p className="auth-subtitle">Bienvenue ! Connectez-vous à votre compte</p>
 

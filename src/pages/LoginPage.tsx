@@ -1,32 +1,25 @@
-import { useState } from 'react'
+import { useState, FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import './AuthPage.css'
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { register } = useAuth()
+  const { login } = useAuth()
   const navigate = useNavigate()
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
-
-    if (password !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas')
-      return
-    }
-
     setLoading(true)
 
     try {
-      await register(email, password)
+      await login(email, password)
       navigate('/')
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message)
     } finally {
       setLoading(false)
@@ -40,18 +33,18 @@ export default function RegisterPage() {
           <div className="image-placeholder">
             <div className="image-gradient"></div>
             <div className="image-content">
-              <h2>Commencez maintenant</h2>
-              <p>Créez votre compte et gérez vos dépenses</p>
+              <h2>Gérez vos dépenses</h2>
+              <p>Suivez et catégorisez vos dépenses facilement</p>
             </div>
           </div>
         </div>
 
         <div className="auth-form-section">
           <div className="auth-form-container">
-            <h2>Commencez maintenant</h2>
-            <p>Créez votre compte et gérez vos dépenses</p>
-            <h1>Inscription</h1>
-            <p className="auth-subtitle">Créez votre compte pour commencer</p>
+            <h2>Gérez vos dépenses</h2>
+            <p>Suivez et catégorisez vos dépenses facilement</p>
+            <h1>Connexion</h1>
+            <p className="auth-subtitle">Bienvenue ! Connectez-vous à votre compte</p>
 
             <form onSubmit={handleSubmit} className="auth-form">
               <div className="form-group">
@@ -74,23 +67,13 @@ export default function RegisterPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-              </div>
-
-              <div className="form-group">
-                <label>Confirmer mot de passe</label>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
+                <a href="#" className="forgot-password">Mot de passe oublié ?</a>
               </div>
 
               {error && <div className="error">{error}</div>}
 
               <button type="submit" disabled={loading} className="btn-primary">
-                {loading ? 'Inscription...' : 'S\'inscrire'}
+                {loading ? 'Connexion...' : 'Se connecter'}
               </button>
             </form>
 
@@ -99,7 +82,7 @@ export default function RegisterPage() {
             </div>
 
             <p className="auth-signup">
-              Déjà inscrit ? <Link to="/login">Se connecter</Link>
+              Pas de compte ? <Link to="/register">S'inscrire</Link>
             </p>
           </div>
         </div>
