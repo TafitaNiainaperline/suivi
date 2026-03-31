@@ -39,7 +39,7 @@ export default function BarChart() {
     labels,
     datasets: [
       {
-        label: 'Montant (€)',
+        label: 'Montant (Ar)',
         data,
         backgroundColor,
       },
