@@ -1,5 +1,5 @@
-import { createContext, useState, useCallback, ReactNode } from 'react'
-import { db } from '../services/firebase/init'
+import { createContext, useState, useEffect, ReactNode } from 'react'
+import { db, auth } from '../services/firebase/init'
 import {
   collection,
   addDoc,
@@ -9,8 +9,8 @@ import {
   deleteDoc,
   doc,
   updateDoc,
-  Unsubscribe,
 } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
 
 export interface Expense {
   id: string
@@ -22,7 +22,6 @@ export interface Expense {
 export interface ExpensesContextType {
   expenses: Expense[]
   loading: boolean
-  loadExpenses: (userId: string) => Unsubscribe | void
   addExpense: (userId: string, expenseData: any) => Promise<string>
   deleteExpense: (expenseId: string) => Promise<void>
   updateExpense: (expenseId: string, updates: any) => Promise<void>
@@ -36,27 +35,45 @@ interface ExpensesProviderProps {
 
 export function ExpensesProvider({ children }: ExpensesProviderProps) {
   const [expenses, setExpenses] = useState<Expense[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  const loadExpenses = useCallback((userId: string) => {
-    if (!userId) {
-      setExpenses([])
-      return
-    }
+  useEffect(() => {
+    let unsubscribeSnapshot: (() => void) | null = null
 
-    setLoading(true)
-    const q = query(collection(db, 'expenses'), where('userId', '==', userId))
+    let initialized = false
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Expense[]
-      setExpenses(data)
-      setLoading(false)
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (unsubscribeSnapshot) {
+        unsubscribeSnapshot()
+        unsubscribeSnapshot = null
+      }
+
+      if (!user) {
+        if (initialized) {
+          // Vraiment déconnecté (pas juste l'init au reload)
+          setExpenses([])
+          setLoading(false)
+        } else {
+          // Premier appel null au reload — on attend le vrai état
+          initialized = true
+        }
+        return
+      }
+
+      initialized = true
+      setLoading(true)
+      const q = query(collection(db, 'expenses'), where('userId', '==', user.uid))
+      unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+        const data = snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as Expense[]
+        setExpenses(data)
+        setLoading(false)
+      })
     })
 
-    return unsubscribe
+    return () => {
+      unsubscribeAuth()
+      if (unsubscribeSnapshot) unsubscribeSnapshot()
+    }
   }, [])
 
   const addExpense = async (userId: string, expenseData: any): Promise<string> => {
@@ -94,7 +111,6 @@ export function ExpensesProvider({ children }: ExpensesProviderProps) {
   const value: ExpensesContextType = {
     expenses,
     loading,
-    loadExpenses,
     addExpense,
     deleteExpense,
     updateExpense,
