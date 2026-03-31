@@ -10,3 +10,4 @@ export function useExpenses(): ExpensesContextType {
 }
 
 export type { Expense, ExpensesContextType }
+
