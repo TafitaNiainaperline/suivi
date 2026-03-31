@@ -1,45 +1,36 @@
 .chart-container {
-  background: var(--bg-white);
-  padding: 28px;
-  border-radius: 12px;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
+  background: var(--surface);
+  padding: 24px 28px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s;
 }
 
 .chart-container:hover {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow);
 }
 
 .chart-container h3 {
-  margin-bottom: 24px;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-dark);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.chart-container h3::before {
-  content: '';
-  width: 4px;
-  height: 24px;
-  background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
-  border-radius: 2px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .chart-container canvas {
-  max-height: 320px;
+  max-height: 300px;
 }
 
 .chart-empty {
-  background: var(--bg-white);
+  background: var(--surface);
   padding: 48px 32px;
-  border-radius: 12px;
+  border-radius: var(--radius);
   text-align: center;
-  color: var(--text-gray);
-  border: 2px dashed var(--border-color);
-  font-size: 15px;
+  color: var(--text-muted);
+  border: 2px dashed var(--border);
+  font-size: 14px;
   font-weight: 500;
 }
