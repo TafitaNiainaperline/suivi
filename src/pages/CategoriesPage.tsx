@@ -1,73 +1,94 @@
 import { useAuth } from '../hooks/useAuth'
-import { EXPENSE_CATEGORIES } from '../utils/constants'
+import { useCategories } from '../hooks/useCategories'
+import { useEffect, useState } from 'react'
+import Sidebar from '../components/Sidebar'
 import './HomePage.css'
+import './CategoriesPage.css'
 
 export default function CategoriesPage() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
+  const { categories, loading, loadCategories, addCategory, deleteCategory } = useCategories()
 
-  const handleLogout = async () => {
-    try {
-      await logout()
-    } catch (error) {
-      console.error('Erreur logout:', error)
+  const [name, setName] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (user) {
+      return loadCategories(user.uid) as (() => void) | undefined
     }
+  }, [user, loadCategories])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!name.trim()) {
+      setError('Le nom est requis.')
+      return
+    }
+    if (!user) return
+    setSaving(true)
+    setError('')
+    try {
+      await addCategory(user.uid, { name: name.trim(), icon: '', color: '#9ca3af' })
+      setName('')
+    } catch {
+      setError("Erreur lors de l'ajout.")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleDelete = async (categoryId: string) => {
+    if (!confirm('Supprimer cette catégorie ?')) return
+    await deleteCategory(categoryId)
   }
 
   return (
     <div className="home-page">
-      <aside className="sidebar-nav">
-        <div className="logo">
-          <h3>Suivi</h3>
-        </div>
-
-        <nav className="nav-menu">
-          <a href="/" className="nav-item">
-            <img src="/images/dashboard-svgrepo-com.svg" alt="Dashboard" className="nav-icon-img" />
-            <span>Dashboard</span>
-          </a>
-          <a href="/expenses" className="nav-item">
-            <img src="/images/budget-svgrepo-com.svg" alt="Dépenses" className="nav-icon-img" />
-            <span>Dépenses</span>
-          </a>
-          <a href="/categories" className="nav-item active">
-            <img src="/images/category-svgrepo-com.svg" alt="Catégories" className="nav-icon-img" />
-            <span>Catégories</span>
-          </a>
-          <a href="/reports" className="nav-item">
-            <img src="/images/budget-svgrepo-com.svg" alt="Rapports" className="nav-icon-img" />
-            <span>Rapports</span>
-          </a>
-        </nav>
-
-        <div className="nav-footer">
-          <button onClick={handleLogout} className="btn-user-logout">
-            <img src="/images/user-svgrepo-com.svg" alt="User" className="user-avatar-footer" />
-            <div className="user-logout-info">
-              <span className="user-name-footer">{user?.email?.split('@')[0]}</span>
-              <span className="logout-text">Déconnexion</span>
-            </div>
-          </button>
-        </div>
-      </aside>
+      <Sidebar activePath="/categories" />
 
       <div className="page-wrapper">
         <div className="main-wrapper">
           <div className="content-header">
             <h2>Catégories</h2>
-            <p>Gérez vos catégories de dépenses</p>
           </div>
 
-          <div className="categories-grid">
-            {EXPENSE_CATEGORIES.map((cat) => (
-              <div key={cat.id} className="category-card">
-                <div className="category-icon" style={{ backgroundColor: cat.color }}>
-                  {cat.icon}
-                </div>
-                <h3>{cat.name}</h3>
-                <p>Dépenses</p>
-              </div>
-            ))}
-          </div>
+          <form className="category-form" onSubmit={handleSubmit}>
+            <div className="category-form-row">
+              <input
+                type="text"
+                placeholder="Nom de la catégorie"
+                value={name}
+                onChange={(e) => { setName(e.target.value); setError('') }}
+                className="category-input"
+              />
+              <button type="submit" className="btn-primary" disabled={saving}>
+                {saving ? 'Ajout...' : 'Ajouter'}
+              </button>
+            </div>
+            {error && <p className="form-error">{error}</p>}
+          </form>
+
+          {loading ? (
+            <p className="loading-text">Chargement...</p>
+          ) : categories.length === 0 ? (
+            <p className="empty-text">Aucune catégorie. Créez-en une ci-dessus.</p>
+          ) : (
+            <ul className="categories-list">
+              {categories.map((cat) => (
+                <li key={cat.id} className="category-list-item">
+                  <span>{cat.name}</span>
+                  <button
+                    className="btn-delete-cat"
+                    onClick={() => handleDelete(cat.id)}
+                    aria-label="Supprimer"
+                  >
+                    ✕
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>
