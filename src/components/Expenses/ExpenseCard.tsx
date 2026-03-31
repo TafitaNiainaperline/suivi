@@ -1,5 +1,4 @@
 import { useExpenses, Expense } from '../../hooks/useExpenses'
-import { EXPENSE_CATEGORIES } from '../../utils/constants'
 import './ExpenseCard.css'
 
 interface ExpenseCardProps {
@@ -8,7 +7,6 @@ interface ExpenseCardProps {
 
 export default function ExpenseCard({ expense }: ExpenseCardProps) {
   const { deleteExpense } = useExpenses()
-  const category = EXPENSE_CATEGORIES.find((c) => c.id === expense.category)
 
   const handleDelete = async () => {
     if (confirm('Supprimer cette dépense ?')) {
@@ -27,14 +25,10 @@ export default function ExpenseCard({ expense }: ExpenseCardProps) {
   return (
     <div className="expense-card">
       <div className="card-header">
-        <div className="category-badge" style={{ backgroundColor: category?.color }}>
-          {category?.icon}
-        </div>
         <div className="card-info">
-          <h3>{expense.description}</h3>
-          <p className="category-name">{category?.name}</p>
+          <h3>{expense.category || 'Sans catégorie'}</h3>
         </div>
-        <div className="amount">€ {Number(expense.amount).toFixed(2)}</div>
+        <div className="amount">Ar {Number(expense.amount).toLocaleString('fr-FR')}</div>
       </div>
       <div className="card-footer">
         <span className="date">{formattedDate}</span>
