@@ -1,13 +1,11 @@
 import { useState, FormEvent } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { useExpenses } from '../../hooks/useExpenses'
-import { EXPENSE_CATEGORIES } from '../../utils/constants'
 import './ExpenseForm.css'
 
 export default function ExpenseForm() {
   const [amount, setAmount] = useState('')
-  const [description, setDescription] = useState('')
-  const [category, setCategory] = useState('food')
+  const [category, setCategory] = useState('')
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -18,8 +16,8 @@ export default function ExpenseForm() {
     e.preventDefault()
     setError('')
 
-    if (!amount || !description) {
-      setError('Tous les champs sont requis')
+    if (!amount) {
+      setError('Le montant est requis')
       return
     }
 
@@ -28,13 +26,11 @@ export default function ExpenseForm() {
     try {
       await addExpense(user!.uid, {
         amount: parseFloat(amount),
-        description,
         category,
         date: new Date(date),
       })
       setAmount('')
-      setDescription('')
-      setCategory('food')
+      setCategory('')
       setDate(new Date().toISOString().split('T')[0])
     } catch (err: any) {
       setError(err.message)
@@ -42,8 +38,6 @@ export default function ExpenseForm() {
       setLoading(false)
     }
   }
-
-  const currentCategory = EXPENSE_CATEGORIES.find(c => c.id === category)
 
   return (
     <form onSubmit={handleSubmit} className="expense-form-new">
@@ -53,9 +47,9 @@ export default function ExpenseForm() {
 
       <div className="form-grid">
         <div className="form-group">
-          <label>Montant (€)</label>
+          <label>Montant (Ar)</label>
           <div className="input-with-icon">
-            <span className="currency-symbol">€</span>
+            <span className="currency-symbol">Ar</span>
             <input
               type="number"
               step="0.01"
@@ -69,16 +63,12 @@ export default function ExpenseForm() {
 
         <div className="form-group">
           <label>Catégorie</label>
-          <select
+          <input
+            type="text"
+            placeholder="Ex: Nourriture, Transport..."
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-          >
-            {EXPENSE_CATEGORIES.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
         <div className="form-group">
@@ -89,17 +79,6 @@ export default function ExpenseForm() {
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
-      </div>
-
-      <div className="form-group full">
-        <label>Description</label>
-        <input
-          type="text"
-          placeholder="Ex: Café, Essence..."
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
       </div>
 
       {error && <div className="error">{error}</div>}
