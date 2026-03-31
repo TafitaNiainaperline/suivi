@@ -6,7 +6,6 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import HomePage from './pages/HomePage'
 import ExpensesPage from './pages/ExpensesPage'
-import CategoriesPage from './pages/CategoriesPage'
 import ReportsPage from './pages/ReportsPage'
 import './App.css'
 
@@ -41,46 +40,9 @@ function AppRoutes() {
         path="/register"
         element={user ? <Navigate to="/" /> : <RegisterPage />}
       />
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <ExpensesProvider>
-              <HomePage />
-            </ExpensesProvider>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/expenses"
-        element={
-          <ProtectedRoute>
-            <ExpensesProvider>
-              <ExpensesPage />
-            </ExpensesProvider>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/categories"
-        element={
-          <ProtectedRoute>
-            <ExpensesProvider>
-              <CategoriesPage />
-            </ExpensesProvider>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/reports"
-        element={
-          <ProtectedRoute>
-            <ExpensesProvider>
-              <ReportsPage />
-            </ExpensesProvider>
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+      <Route path="/expenses" element={<ProtectedRoute><ExpensesPage /></ProtectedRoute>} />
+      <Route path="/reports" element={<ProtectedRoute><ReportsPage /></ProtectedRoute>} />
     </Routes>
   )
 }
@@ -89,7 +51,9 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <AppRoutes />
+        <ExpensesProvider>
+          <AppRoutes />
+        </ExpensesProvider>
       </AuthProvider>
     </Router>
   )
