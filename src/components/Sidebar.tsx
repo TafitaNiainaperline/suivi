@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 
 const navItems = [
@@ -26,6 +27,19 @@ interface NavbarProps {
 
 export default function Sidebar({ activePath }: NavbarProps) {
   const { user, logout } = useAuth()
+  const [open, setOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Fermer le dropdown si clic en dehors
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
 
   const handleLogout = async () => {
     try {
@@ -35,11 +49,14 @@ export default function Sidebar({ activePath }: NavbarProps) {
     }
   }
 
+  const username = user?.email?.split('@')[0] ?? ''
+
   return (
     <>
       {/* Desktop navbar */}
       <header className="navbar">
         <div className="navbar-brand">Suivi</div>
+
         <nav className="navbar-menu">
           {navItems.map((item) => (
             <a
@@ -51,11 +68,39 @@ export default function Sidebar({ activePath }: NavbarProps) {
             </a>
           ))}
         </nav>
-        <div className="navbar-user">
-          <span className="navbar-username">{user?.email?.split('@')[0]}</span>
-          <button onClick={handleLogout} className="navbar-logout">
-            Déconnexion
+
+        {/* User dropdown */}
+        <div className="navbar-user" ref={dropdownRef}>
+          <button className="user-trigger" onClick={() => setOpen(!open)}>
+            <div className="user-avatar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
           </button>
+
+          {open && (
+            <div className="user-dropdown">
+              <div className="user-dropdown-info">
+                <div className="user-dropdown-avatar">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </div>
+                <p className="user-dropdown-email">{user?.email}</p>
+              </div>
+              <div className="user-dropdown-divider" />
+              <button className="user-dropdown-logout" onClick={handleLogout}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Déconnexion
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
