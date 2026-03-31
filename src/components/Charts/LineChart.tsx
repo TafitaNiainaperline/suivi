@@ -58,7 +58,7 @@ export default function LineChart() {
     labels,
     datasets: [
       {
-        label: 'Dépenses quotidiennes (€)',
+        label: 'Dépenses quotidiennes (Ar)',
         data,
         borderColor: '#3b82f6',
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
