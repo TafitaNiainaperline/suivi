@@ -2,38 +2,20 @@
   flex: 1;
 }
 
-.expense-list h2 {
-  margin-bottom: 24px;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text-dark);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.expense-list h2::before {
-  content: '';
-  width: 4px;
-  height: 28px;
-  background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
-  border-radius: 2px;
-}
-
 .cards-container {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .loading,
 .empty-state {
-  background: var(--bg-white);
-  padding: 56px 32px;
-  border-radius: 12px;
+  background: var(--surface);
+  padding: 48px 32px;
+  border-radius: var(--radius);
   text-align: center;
-  color: var(--text-gray);
-  border: 2px dashed var(--border-color);
-  font-size: 15px;
+  color: var(--text-muted);
+  border: 2px dashed var(--border);
+  font-size: 14px;
   font-weight: 500;
 }
