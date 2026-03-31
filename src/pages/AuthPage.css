@@ -143,6 +143,50 @@
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
 }
 
+.password-field-wrapper {
+  position: relative;
+  display: block;
+}
+
+.password-field-wrapper input {
+  width: 100%;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 11px 50px 11px 14px;
+  font-size: 14px;
+  background-color: #f8fafc;
+  transition: all 0.3s ease;
+}
+
+.password-field-wrapper input:focus {
+  background-color: var(--bg-white);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.password-toggle img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .forgot-password {
   font-size: 12px;
   color: var(--primary-color);
@@ -150,6 +194,10 @@
   font-weight: 600;
   transition: color 0.3s ease;
   align-self: flex-end;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .forgot-password:hover {
@@ -183,6 +231,29 @@
   cursor: not-allowed;
 }
 
+.btn-secondary {
+  background: var(--bg-light);
+  color: var(--text-dark);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid var(--border-color);
+  font-size: 15px;
+  width: 100%;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--border-color);
+  border-color: var(--primary-color);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .error {
   background: #fee2e2;
   color: #991b1b;
@@ -190,6 +261,16 @@
   border-radius: 8px;
   font-size: 14px;
   border-left: 4px solid #ef4444;
+  animation: slideIn 0.3s ease;
+}
+
+.success {
+  background: #dcfce7;
+  color: #166534;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  border-left: 4px solid #22c55e;
   animation: slideIn 0.3s ease;
 }
 
