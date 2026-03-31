@@ -1,34 +1,26 @@
 .expense-card {
-  background: var(--bg-white);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 18px;
-  transition: all 0.3s ease;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: box-shadow 0.15s, border-color 0.15s;
 }
 
 .expense-card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--primary-color);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: #c7d2fe;
 }
 
 .card-header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 14px;
-}
-
-.category-badge {
-  width: 52px;
-  height: 52px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
 
 .card-info {
@@ -37,61 +29,74 @@
 }
 
 .card-info h3 {
-  margin: 0;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--text-dark);
-  word-break: break-word;
-}
-
-.category-name {
-  margin: 4px 0 0 0;
-  font-size: 12px;
-  color: var(--text-gray);
-  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .amount {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .card-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding-top: 14px;
-  border-top: 1px solid var(--border-color);
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .date {
   font-size: 12px;
-  color: var(--text-gray);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .btn-delete {
-  background: #fee2e2;
-  color: #991b1b;
-  padding: 6px 12px;
+  padding: 5px 11px;
+  background: transparent;
+  border: 1.5px solid var(--border);
   border-radius: 6px;
+  color: var(--text-muted);
   font-size: 12px;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s ease;
-  font-weight: 600;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .btn-delete:hover {
-  background: #fecaca;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+  background: var(--danger-light);
+  border-color: #fca5a5;
+  color: var(--danger);
+  transform: none;
+  box-shadow: none;
 }
 
-.btn-delete:active {
-  transform: scale(0.95);
+@media (max-width: 640px) {
+  .expense-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .card-header {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .card-footer {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .amount {
+    font-size: 16px;
+  }
 }
