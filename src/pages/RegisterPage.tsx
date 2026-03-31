@@ -9,6 +9,8 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const { register } = useAuth()
   const navigate = useNavigate()
 
@@ -67,24 +69,54 @@ export default function RegisterPage() {
 
               <div className="form-group">
                 <label>Mot de passe</label>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="password-field-wrapper">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setShowPassword(!showPassword)
+                    }}
+                  >
+                    <img
+                      src={showPassword ? '/images/eye-on-svgrepo-com.svg' : '/images/eye-off-svgrepo-com.svg'}
+                      alt={showPassword ? 'Masquer' : 'Afficher'}
+                    />
+                  </button>
+                </div>
               </div>
 
               <div className="form-group">
                 <label>Confirmer mot de passe</label>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
+                <div className="password-field-wrapper">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setShowConfirmPassword(!showConfirmPassword)
+                    }}
+                  >
+                    <img
+                      src={showConfirmPassword ? '/images/eye-on-svgrepo-com.svg' : '/images/eye-off-svgrepo-com.svg'}
+                      alt={showConfirmPassword ? 'Masquer' : 'Afficher'}
+                    />
+                  </button>
+                </div>
               </div>
 
               {error && <div className="error">{error}</div>}
