@@ -2,7 +2,11 @@ import { useExpenses } from '../../hooks/useExpenses'
 import ExpenseCard from './ExpenseCard'
 import './ExpenseList.css'
 
-export default function ExpenseList() {
+interface ExpenseListProps {
+  limit?: number
+}
+
+export default function ExpenseList({ limit }: ExpenseListProps) {
   const { expenses, loading } = useExpenses()
 
   if (loading) {
@@ -17,11 +21,12 @@ export default function ExpenseList() {
     (a, b) => new Date((b.date as any)?.seconds * 1000 || b.date as any).getTime() - new Date((a.date as any)?.seconds * 1000 || a.date as any).getTime()
   )
 
+  const displayed = limit ? sorted.slice(0, limit) : sorted
+
   return (
     <div className="expense-list">
-      <h2>Mes dépenses</h2>
       <div className="cards-container">
-        {sorted.map((expense) => (
+        {displayed.map((expense) => (
           <ExpenseCard key={expense.id} expense={expense} />
         ))}
       </div>
