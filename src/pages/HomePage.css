@@ -40,17 +40,17 @@
 .navbar-menu {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 12px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .navbar-link {
-  padding: 7px 16px;
+  padding: 9px 22px;
   border-radius: var(--radius-sm);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--text-muted);
   transition: all 0.15s ease;
