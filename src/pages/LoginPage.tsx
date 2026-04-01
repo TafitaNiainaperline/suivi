@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { useToast } from '../hooks/useToast'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { auth } from '../services/firebase/init'
 import './AuthPage.css'
@@ -8,25 +9,22 @@ import './AuthPage.css'
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   const { login } = useAuth()
+  const { showToast } = useToast()
   const navigate = useNavigate()
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setError('')
-    setSuccess('')
     setLoading(true)
 
     try {
       await login(email, password)
       navigate('/')
     } catch (err: any) {
-      setError(err.message)
+      showToast(err.message, 'error')
     } finally {
       setLoading(false)
     }
@@ -34,20 +32,18 @@ export default function LoginPage() {
 
   const handleResetPassword = async () => {
     if (!email) {
-      setError('Veuillez entrer votre email')
+      showToast('Veuillez entrer votre email', 'error')
       return
     }
 
-    setError('')
-    setSuccess('')
     setLoading(true)
 
     try {
       await sendPasswordResetEmail(auth, email)
-      setSuccess('Email de réinitialisation envoyé. Vérifiez votre boîte de réception.')
+      showToast('Email de réinitialisation envoyé. Vérifiez votre boîte de réception.', 'success')
       setShowForgotPassword(false)
     } catch (err: any) {
-      setError(err.message || 'Erreur lors de l\'envoi de l\'email')
+      showToast(err.message || "Erreur lors de l'envoi de l'email", 'error')
     } finally {
       setLoading(false)
     }
@@ -119,9 +115,6 @@ export default function LoginPage() {
                   </button>
                 </div>
 
-                {error && <div className="error">{error}</div>}
-                {success && <div className="success">{success}</div>}
-
                 <button type="submit" disabled={loading} className="btn-primary">
                   {loading ? 'Connexion...' : 'Se connecter'}
                 </button>
@@ -138,9 +131,6 @@ export default function LoginPage() {
                     required
                   />
                 </div>
-
-                {error && <div className="error">{error}</div>}
-                {success && <div className="success">{success}</div>}
 
                 <button
                   onClick={handleResetPassword}
