@@ -54,7 +54,15 @@ export default function Sidebar({ activePath }: NavbarProps) {
     <>
       {/* Desktop navbar */}
       <header className="navbar">
-        <div className="navbar-brand">Suivi</div>
+        <div className="navbar-brand">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/>
+            <path d="M3 10h18"/>
+            <rect x="16" y="12" width="5" height="4" rx="1"/>
+            <circle cx="18.5" cy="14" r="0.8" fill="currentColor" stroke="none"/>
+          </svg>
+          <span>Suivi</span>
+        </div>
 
         <nav className="navbar-menu">
           {navItems.map((item) => (
