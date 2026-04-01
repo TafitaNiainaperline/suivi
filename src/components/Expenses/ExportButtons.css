@@ -1,0 +1,35 @@
+.export-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-export {
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  letter-spacing: 0.3px;
+}
+
+.btn-csv {
+  color: #16a34a;
+  border-color: #bbf7d0;
+}
+
+.btn-csv:hover {
+  background: #f0fdf4;
+  border-color: #16a34a;
+}
+
+.btn-pdf {
+  color: var(--danger);
+  border-color: #fecaca;
+}
+
+.btn-pdf:hover {
+  background: var(--danger-light);
+  border-color: var(--danger);
+}
