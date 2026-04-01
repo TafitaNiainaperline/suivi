@@ -1,25 +1,25 @@
 import { useState, FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { useToast } from '../hooks/useToast'
 import './AuthPage.css'
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const { register } = useAuth()
+  const { showToast } = useToast()
   const navigate = useNavigate()
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setError('')
 
     if (password !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas')
+      showToast('Les mots de passe ne correspondent pas', 'error')
       return
     }
 
@@ -29,7 +29,7 @@ export default function RegisterPage() {
       await register(email, password)
       navigate('/')
     } catch (err: any) {
-      setError(err.message)
+      showToast(err.message, 'error')
     } finally {
       setLoading(false)
     }
@@ -118,8 +118,6 @@ export default function RegisterPage() {
                   </button>
                 </div>
               </div>
-
-              {error && <div className="error">{error}</div>}
 
               <button type="submit" disabled={loading} className="btn-primary">
                 {loading ? 'Inscription...' : 'S\'inscrire'}
