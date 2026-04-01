@@ -90,6 +90,51 @@
   margin-bottom: 14px;
 }
 
+.form-group-note {
+  margin-bottom: 12px;
+}
+
+.form-recurrent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.recurrent-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.recurrent-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  border: none;
+}
+
+.recurrent-freq {
+  padding: 7px 11px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+}
+
+.recurrent-freq:focus {
+  border-color: var(--primary);
+}
+
 .btn-submit {
   width: 100%;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
