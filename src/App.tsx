@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 import { ExpensesProvider } from './contexts/ExpensesContext'
+import { ToastProvider } from './contexts/ToastContext'
+import { BudgetProvider } from './contexts/BudgetContext'
+import BudgetPage from './pages/BudgetPage'
 import { useAuth } from './hooks/useAuth'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -43,6 +46,7 @@ function AppRoutes() {
       <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
       <Route path="/expenses" element={<ProtectedRoute><ExpensesPage /></ProtectedRoute>} />
       <Route path="/reports" element={<ProtectedRoute><ReportsPage /></ProtectedRoute>} />
+      <Route path="/budget" element={<ProtectedRoute><BudgetPage /></ProtectedRoute>} />
     </Routes>
   )
 }
@@ -52,7 +56,11 @@ function App() {
     <Router>
       <AuthProvider>
         <ExpensesProvider>
-          <AppRoutes />
+          <ToastProvider>
+            <BudgetProvider>
+              <AppRoutes />
+            </BudgetProvider>
+          </ToastProvider>
         </ExpensesProvider>
       </AuthProvider>
     </Router>
