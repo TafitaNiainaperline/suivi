@@ -1,5 +1,6 @@
 import { useAuth } from '../hooks/useAuth'
 import { useCategories } from '../hooks/useCategories'
+import { useToast } from '../hooks/useToast'
 import { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import './HomePage.css'
@@ -8,10 +9,10 @@ import './CategoriesPage.css'
 export default function CategoriesPage() {
   const { user } = useAuth()
   const { categories, loading, loadCategories, addCategory, deleteCategory } = useCategories()
+  const { showToast } = useToast()
 
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
-  const [error, setError] = useState('')
 
   useEffect(() => {
     if (user) {
@@ -22,17 +23,17 @@ export default function CategoriesPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim()) {
-      setError('Le nom est requis.')
+      showToast('Le nom est requis.', 'error')
       return
     }
     if (!user) return
     setSaving(true)
-    setError('')
     try {
       await addCategory(user.uid, { name: name.trim(), icon: '', color: '#9ca3af' })
       setName('')
+      showToast('Catégorie ajoutée.', 'success')
     } catch {
-      setError("Erreur lors de l'ajout.")
+      showToast("Erreur lors de l'ajout.", 'error')
     } finally {
       setSaving(false)
     }
@@ -40,7 +41,12 @@ export default function CategoriesPage() {
 
   const handleDelete = async (categoryId: string) => {
     if (!confirm('Supprimer cette catégorie ?')) return
-    await deleteCategory(categoryId)
+    try {
+      await deleteCategory(categoryId)
+      showToast('Catégorie supprimée.', 'success')
+    } catch {
+      showToast('Erreur lors de la suppression.', 'error')
+    }
   }
 
   return (
@@ -66,7 +72,6 @@ export default function CategoriesPage() {
                 {saving ? 'Ajout...' : 'Ajouter'}
               </button>
             </div>
-            {error && <p className="form-error">{error}</p>}
           </form>
 
           {loading ? (
