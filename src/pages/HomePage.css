@@ -70,6 +70,7 @@
 .navbar-user {
   position: relative;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 .user-trigger {
