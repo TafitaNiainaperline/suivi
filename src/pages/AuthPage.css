@@ -128,19 +128,22 @@
   letter-spacing: 0.5px;
 }
 
-.form-group input {
-  padding: 11px 14px;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 14px;
-  background-color: #f8fafc;
-  transition: all 0.3s ease;
+.auth-form .form-group input {
+  padding: 13px 16px;
+  border: 1.5px solid #90a2ea;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: #e2e8f0;
+  color: #0f172a;
 }
 
-.form-group input:focus {
-  background-color: var(--bg-white);
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+.auth-form .form-group input::placeholder {
+  color: #94a3b8;
+}
+
+.auth-form .form-group input:focus {
+  outline: none;
+  border-color: #6366f1;
 }
 
 .password-field-wrapper {
@@ -148,20 +151,23 @@
   display: block;
 }
 
-.password-field-wrapper input {
+.auth-form .password-field-wrapper input {
   width: 100%;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  padding: 11px 50px 11px 14px;
-  font-size: 14px;
-  background-color: #f8fafc;
-  transition: all 0.3s ease;
+  border: 1.5px solid #90a2ea;
+  border-radius: 10px;
+  padding: 13px 50px 13px 16px;
+  font-size: 15px;
+  background-color: #e2e8f0;
+  color: #0f172a;
 }
 
-.password-field-wrapper input:focus {
-  background-color: var(--bg-white);
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+.auth-form .password-field-wrapper input::placeholder {
+  color: #94a3b8;
+}
+
+.auth-form .password-field-wrapper input:focus {
+  outline: none;
+  border-color: #6366f1;
 }
 
 .password-toggle {
