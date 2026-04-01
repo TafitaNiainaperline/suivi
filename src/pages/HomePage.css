@@ -266,7 +266,7 @@
 /* ── SUMMARY CARDS ───────────────────────── */
 .summary-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
 }
 
@@ -300,6 +300,24 @@
   color: var(--primary);
   letter-spacing: -0.5px;
 }
+
+.summary-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.summary-card-danger {
+  border-color: #fca5a5;
+  background: #fff5f5;
+}
+.summary-card-danger .summary-amount { color: var(--danger); }
+
+.summary-card-warning {
+  border-color: #fcd34d;
+  background: #fffbeb;
+}
+.summary-card-warning .summary-amount { color: #d97706; }
 
 /* ── CHARTS ──────────────────────────────── */
 .charts-section {
