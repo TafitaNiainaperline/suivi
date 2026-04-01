@@ -5,6 +5,7 @@
   z-index: 100;
   display: flex;
   align-items: center;
+  position: relative;
   padding: 0 40px;
   height: 64px;
   background: var(--surface);
@@ -40,7 +41,9 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  flex: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .navbar-link {
