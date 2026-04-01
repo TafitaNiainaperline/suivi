@@ -63,10 +63,40 @@ export function ExpensesProvider({ children }: ExpensesProviderProps) {
       initialized = true
       setLoading(true)
       const q = query(collection(db, 'expenses'), where('userId', '==', user.uid))
-      unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+      unsubscribeSnapshot = onSnapshot(q, async (snapshot) => {
         const data = snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as Expense[]
         setExpenses(data)
         setLoading(false)
+
+        // Générer les dépenses récurrentes manquantes pour le mois courant
+        const now = new Date()
+        const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+        const recurrentExpenses = data.filter((e) => e.recurrent)
+        for (const template of recurrentExpenses) {
+          if (template.frequency === 'monthly') {
+            const alreadyExists = data.some((e) => {
+              if (!e.recurrentSourceId || e.recurrentSourceId !== template.id) return false
+              const d = new Date((e.date as any)?.seconds * 1000 || e.date)
+              const m = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+              return m === currentMonthKey
+            })
+            const templateDate = new Date((template.date as any)?.seconds * 1000 || template.date)
+            const templateMonthKey = `${templateDate.getFullYear()}-${String(templateDate.getMonth() + 1).padStart(2, '0')}`
+            if (!alreadyExists && templateMonthKey !== currentMonthKey) {
+              const newDate = new Date(now.getFullYear(), now.getMonth(), templateDate.getDate())
+              await addDoc(collection(db, 'expenses'), {
+                userId: user.uid,
+                amount: template.amount,
+                category: template.category,
+                note: template.note || null,
+                date: newDate,
+                recurrent: false,
+                recurrentSourceId: template.id,
+                createdAt: new Date(),
+              })
+            }
+          }
+        }
       })
     })
 
